@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     private final AuthTokenFilter authTokenFilter;
 
-    @Value("${app.cors.allowed-origins}")
+    @Value("${app.cors.allowed-origins:https://site--kokalos-hub-frontend--8hfv9h62vwdk.code.run,http://localhost:5173,http://localhost:3000}")
     private String allowedOrigins;
 
     @Bean
@@ -64,10 +64,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
+        
+        // Gestisce la suddivisione delle origini con fallback sicuro
+        List<String> origins = Arrays.asList(allowedOrigins.split(","));
+        configuration.setAllowedOrigins(origins);
+        
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
