@@ -1,0 +1,14 @@
+# Eclipse
+.metadata/
+.plugins/
+.lock
+.log
+bin/
+target/
+*.class
+
+# IDEs / OS files
+.settings/
+.classpath
+.project
+.DS_Store
