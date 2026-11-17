@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+// Legge l'URL dalla variabile d'ambiente di Vite se disponibile, altrimenti usa localhost
+const API_BASE_URL = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL}/api` 
+  : 'http://localhost:8080/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -10,8 +13,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  // Le API amministrative devono usare sempre il JWT admin, anche se nel browser
-  // è rimasta aperta una sessione visitatore contemporanea.
+  
   const isAdminRequest = config.url?.startsWith('/admin/');
   const token = isAdminRequest
     ? (localStorage.getItem('kokalos_jwt') || localStorage.getItem('kokalos_user_jwt'))
