@@ -12,7 +12,12 @@ export default function Navbar() {
   const userName = localStorage.getItem('kokalos_user_name');
   const adminToken = localStorage.getItem('kokalos_jwt');
 
-  const goHomeTop = (e) => { e.preventDefault(); if (window.location.pathname !== '/') navigate('/'); window.setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 0); setMobileMenuOpen(false); };
+  const goHomeTop = (e) => {
+    e.preventDefault();
+    if (window.location.pathname !== '/') navigate('/');
+    window.setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 0);
+    setMobileMenuOpen(false);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('kokalos_user_jwt');
@@ -141,17 +146,50 @@ export default function Navbar() {
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-slate-200 p-4 space-y-3 shadow-xl">
+          
+          {/* Tasto Dashboard condizionale posizionato sopra la Home */}
+          {adminToken ? (
+            <Link
+              to="/admin/dashboard"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 py-2.5 px-3 rounded-xl bg-orange-50 text-orange-600 font-bold"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              Dashboard Admin
+            </Link>
+          ) : userToken ? (
+            <Link
+              to="/dashboard"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 py-2.5 px-3 rounded-xl bg-sky-50 text-sky-700 font-bold"
+            >
+              <User className="w-4 h-4 text-sky-600" />
+              {userName || t.nav.userDashboard}
+            </Link>
+          ) : null}
+
           <a href="/" onClick={goHomeTop} className="block py-2 font-bold text-slate-800">{t.nav.home}</a>
           <a href="/#events" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-bold text-slate-800">{t.nav.events}</a>
           <a href="/#verify" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-bold text-slate-800">{t.nav.bookings}</a>
           <a href="/#feedback" onClick={() => setMobileMenuOpen(false)} className="block py-2 font-bold text-slate-800">{t.nav.feedback}</a>
+          
           <div className="pt-3 border-t border-slate-200 flex flex-col gap-2">
             {adminToken || userToken ? (
-              <button onClick={() => { handleLogout(); setMobileMenuOpen(false); }} className="w-full py-2.5 rounded-xl bg-red-600 text-white font-bold text-center text-xs">
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full py-2.5 rounded-xl bg-red-600 text-white font-bold text-center text-xs"
+              >
                 Esci
               </button>
             ) : (
-              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="w-full py-2.5 rounded-xl bg-sky-500 text-white font-bold text-center text-xs">
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-2.5 rounded-xl bg-sky-500 text-white font-bold text-center text-xs"
+              >
                 {t.nav.loginRegister}
               </Link>
             )}
