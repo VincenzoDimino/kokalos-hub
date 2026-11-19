@@ -3,6 +3,51 @@ import { Link, useNavigate } from 'react-router-dom';
 import { User, ShieldCheck, LogOut, Menu, X } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
+const FlagIcon = ({ lang }) => {
+  switch (lang) {
+    case 'IT':
+      return (
+        <svg className="w-6 h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 3 2">
+          <rect width="1" height="2" x="0" fill="#009246" />
+          <rect width="1" height="2" x="1" fill="#ffffff" />
+          <rect width="1" height="2" x="2" fill="#ce2b37" />
+        </svg>
+      );
+    case 'EN':
+      return (
+        <svg className="w-6 h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 60 30">
+          <clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
+          <clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath>
+          <g clipPath="url(#s)">
+            <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+            <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6"/>
+            <path d="M0,0 L60,30 M60,0 L0,30" clipPath="url(#t)" stroke="#C8102E" strokeWidth="4"/>
+            <path d="M30,0 v30 M0,15 h60" stroke="#fff" strokeWidth="10"/>
+            <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6"/>
+          </g>
+        </svg>
+      );
+    case 'FR':
+      return (
+        <svg className="w-6 h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 3 2">
+          <rect width="1" height="2" x="0" fill="#002395" />
+          <rect width="1" height="2" x="1" fill="#ffffff" />
+          <rect width="1" height="2" x="2" fill="#ed2939" />
+        </svg>
+      );
+    case 'DE':
+      return (
+        <svg className="w-6 h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 5 3">
+          <rect width="5" height="3" y="0" fill="#000000" />
+          <rect width="5" height="2" y="1" fill="#DD0000" />
+          <rect width="5" height="1" y="2" fill="#FFCE00" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
+
 export default function Navbar() {
   const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
@@ -56,21 +101,27 @@ export default function Navbar() {
         {/* Right Action Bar (Language Switcher & Auth) */}
         <div className="hidden md:flex items-center gap-4">
           
-          {/* Language Selector */}
-          <div className="flex items-center bg-slate-100 p-1 rounded-full border border-slate-200">
-            {['IT', 'EN', 'FR', 'DE'].map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setLanguage(lang)}
-                className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                  language === lang
-                    ? 'bg-slate-900 text-white shadow'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                {lang}
-              </button>
-            ))}
+          {/* Bandiera attiva + Language Selector */}
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center justify-center" title={`Lingua attiva: ${language}`}>
+              <FlagIcon lang={language} />
+            </div>
+
+            <div className="flex items-center bg-slate-100 p-1 rounded-full border border-slate-200">
+              {['IT', 'EN', 'FR', 'DE'].map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setLanguage(lang)}
+                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                    language === lang
+                      ? 'bg-slate-900 text-white shadow'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  {lang}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Autenticazione Condizionale Rigorosa */}
@@ -121,7 +172,8 @@ export default function Navbar() {
         </div>
 
         {/* Mobile menu button */}
-        <div className="flex md:hidden items-center gap-3">
+        <div className="flex md:hidden items-center gap-2">
+          <FlagIcon lang={language} />
           <div className="flex items-center bg-slate-100 p-0.5 rounded-full border border-slate-200">
             {['IT', 'EN', 'FR', 'DE'].map((lang) => (
               <button
