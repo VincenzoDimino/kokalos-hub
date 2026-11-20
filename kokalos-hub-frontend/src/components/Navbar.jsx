@@ -7,7 +7,7 @@ const FlagIcon = ({ lang }) => {
   switch (lang) {
     case 'IT':
       return (
-        <svg className="w-6 h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 3 2">
+        <svg className="w-5 h-3.5 sm:w-6 sm:h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 3 2">
           <rect width="1" height="2" x="0" fill="#009246" />
           <rect width="1" height="2" x="1" fill="#ffffff" />
           <rect width="1" height="2" x="2" fill="#ce2b37" />
@@ -15,7 +15,7 @@ const FlagIcon = ({ lang }) => {
       );
     case 'EN':
       return (
-        <svg className="w-6 h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 60 30">
+        <svg className="w-5 h-3.5 sm:w-6 sm:h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 60 30">
           <clipPath id="s"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
           <clipPath id="t"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath>
           <g clipPath="url(#s)">
@@ -29,7 +29,7 @@ const FlagIcon = ({ lang }) => {
       );
     case 'FR':
       return (
-        <svg className="w-6 h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 3 2">
+        <svg className="w-5 h-3.5 sm:w-6 sm:h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 3 2">
           <rect width="1" height="2" x="0" fill="#002395" />
           <rect width="1" height="2" x="1" fill="#ffffff" />
           <rect width="1" height="2" x="2" fill="#ed2939" />
@@ -37,7 +37,7 @@ const FlagIcon = ({ lang }) => {
       );
     case 'DE':
       return (
-        <svg className="w-6 h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 5 3">
+        <svg className="w-5 h-3.5 sm:w-6 sm:h-4 rounded-[3px] shadow-sm border border-slate-200/80 shrink-0" viewBox="0 0 5 3">
           <rect width="5" height="3" y="0" fill="#000000" />
           <rect width="5" height="2" y="1" fill="#DD0000" />
           <rect width="5" height="1" y="2" fill="#FFCE00" />
@@ -72,19 +72,19 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm overflow-x-clip">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
         
         {/* Logo */}
-        <a href="/" onClick={goHomeTop} className="flex items-center gap-3 group">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-sky-500 via-orange-500 to-amber-500 flex items-center justify-center text-white font-display font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
+        <a href="/" onClick={goHomeTop} className="flex items-center gap-2 sm:gap-3 group min-w-0 shrink">
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-sky-500 via-orange-500 to-amber-500 flex items-center justify-center text-white font-display font-extrabold text-base sm:text-xl shadow-md group-hover:scale-105 transition-transform shrink-0">
             K
           </div>
-          <div>
-            <span className="font-display font-black text-xl text-slate-900 tracking-tight block leading-none">
+          <div className="min-w-0">
+            <span className="font-display font-black text-sm sm:text-xl text-slate-900 tracking-tight block leading-none truncate">
               KOKALOS<span className="text-orange-500">HUB</span>
             </span>
-            <span className="text-[10px] font-bold text-sky-700 tracking-widest uppercase">
+            <span className="text-[9px] sm:text-[10px] font-bold text-sky-700 tracking-wider sm:tracking-widest uppercase block truncate">
               Sciacca • Sicilia
             </span>
           </div>
@@ -171,25 +171,31 @@ export default function Navbar() {
 
         </div>
 
-        {/* Mobile menu button */}
-        <div className="flex md:hidden items-center gap-2">
-          <FlagIcon lang={language} />
-          <div className="flex items-center bg-slate-100 p-0.5 rounded-full border border-slate-200">
+        {/* Mobile menu button + Bandiera + Lingue */}
+        <div className="flex md:hidden items-center gap-1.5 shrink-0">
+          <div className="flex items-center justify-center shrink-0" title={`Lingua attiva: ${language}`}>
+            <FlagIcon lang={language} />
+          </div>
+          <div className="flex items-center bg-slate-100 p-0.5 rounded-full border border-slate-200 shrink-0">
             {['IT', 'EN', 'FR', 'DE'].map((lang) => (
               <button
                 key={lang}
                 onClick={() => setLanguage(lang)}
-                className={`px-2 py-1 rounded-full text-[10px] font-bold ${language === lang ? 'bg-slate-900 text-white' : 'text-slate-700'}`}
+                className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold leading-tight ${
+                  language === lang ? 'bg-slate-900 text-white' : 'text-slate-700'
+                }`}
               >
                 {lang}
               </button>
             ))}
           </div>
           <button
+            type="button"
+            aria-label="Apri o chiudi menu"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl bg-slate-100 text-slate-700"
+            className="p-1.5 rounded-xl bg-slate-100 text-slate-700 shrink-0"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
